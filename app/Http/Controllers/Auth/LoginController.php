@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Post;
 
 class LoginController extends Controller
 {
@@ -27,19 +29,23 @@ class LoginController extends Controller
             return redirect()->intended('home');
         }
 
-        return redirect('login')->with('error', 'Oppes! You have entered invalid credentials');
+        return redirect('user/login')->with('error', 'Email or password is incorrect');
     }
 
     public function logout() 
     {
       Auth::logout();
 
-      return redirect('login');
+      return redirect('user/login');
     }
 
     public function home()
     {
-
-      return view('auth.home');
+      	if(Auth::user()->id == 1){
+            $posts = DB::table('posts')->paginate(5);
+        }else{
+            $posts =  DB::table('posts')->where('create_user_id', Auth::user()->id)->paginate(5);
+        }
+     	return view('auth.home',compact('posts'));
     }
 }

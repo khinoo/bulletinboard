@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- <link href="{{ asset('../../sass/styles.css') }}" rel="stylesheet"> -->
     <h2 class="text-center font-weight-light my-4">SCM Bulletin Board</h2>
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
@@ -55,7 +56,12 @@
                                                 <label class="form-check-label" for="remember">
                                                     {{ __('Remember Me') }}
                                                 </label>
+
                                             </div>
+
+                                                <a class="btn btn-link" href="/forget-password">
+                                                    Forgot Your Password?
+                                                </a>
                                         </div>
                                     </div>
 
@@ -64,10 +70,6 @@
                                             <button type="submit" class="btn btn-primary">
                                                 {{ __('Login') }}
                                             </button>
-
-                                            <a class="btn btn-link" href="/forget-password">
-                                                Forgot Your Password?
-                                            </a>
                                         </div>
                                     </div>
                                     </form>
