@@ -88,7 +88,7 @@ class PostsController extends Controller
             $posts = DB::table('posts')
             ->select('users.name','posts.*')
             ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
-            ->whereNull('deleted_at')->paginate(10);
+            ->whereNull('posts.deleted_at')->paginate(10);
         }else{
             $posts =  DB::table('posts')->where('create_user_id', Auth::user()->id)->whereNull('deleted_at')->paginate(10);
         }
