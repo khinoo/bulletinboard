@@ -42,7 +42,10 @@ class LoginController extends Controller
     public function home()
     {
       	if(Auth::user()->id == 1){
-            $posts = DB::table('posts')->paginate(5);
+            $posts = DB::table('posts')
+            ->select('users.name','posts.*')
+            ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
+            ->paginate(5);
         }else{
             $posts =  DB::table('posts')->where('create_user_id', Auth::user()->id)->paginate(5);
         }
