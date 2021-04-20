@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Services\Post\PostServiceInterface;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,18 @@ use Carbon\Carbon;
 
 class PostsController extends Controller
 {
+    private $postInterface;
+    /**
+    * Create a new controller instance.
+    *
+    * @return void
+    */
+    public function __construct(PostServiceInterface $postInterface)
+    {
+
+        $this->middleware('auth');
+        $this->postInterface = $postInterface;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -39,32 +52,12 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        $post = new Post();
-        if($request->input('id') != null) {
-            $post = Post::find($request->input('id'));
-            $post->title =   $request->title;
-            $post->description = $request->description;
-            $post->status = ($request->input('status') == "on") ? 1 : 0;
-            $post->updated_user_id = Auth::user()->id;
-            $post->updated_at = Carbon::now();
-        }else{
-            $post->title = $request->title;
-            $post->description = $request->description;
-            $post->status = 1;
-            $post->create_user_id = Auth::user()->id;
-            $post->updated_user_id = Auth::user()->id;
-            $post->created_at = Carbon::now();
-            $post->updated_at = Carbon::now();
-        }
-        
-        $post->save();
-
+        $this->postInterface->savePost($request);
         return redirect('/postlist');
     }
 
     public function confirm(Request $request)
     {
-        // dd($request);
         $id = null;
         if($request->input('id') != null) {
             $id = $request->input('id');
@@ -84,15 +77,7 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        if(Auth::user()->id == 1){
-            $posts = DB::table('posts')
-            ->select('users.name','posts.*')
-            ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
-            ->whereNull('posts.deleted_at')->paginate(10);
-        }else{
-            $posts =  DB::table('posts')->where('create_user_id', Auth::user()->id)->whereNull('deleted_at')->paginate(10);
-        }
-
+        $posts = $this->postInterface->getPostByUser();
         return view('posts/postlist',compact('posts'));
     }
 
@@ -104,7 +89,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $posts = Post::find($id);
+        $posts  = $this->postInterface->getPostByUserId($id);
         $title = $posts->title;
         $description = $posts->description;
         $status = $posts->status;
@@ -133,25 +118,13 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
-        $post->deleted_at =  Carbon::now();
-        $post->deleted_user_id = Auth::user()->id;
-        $post->save();
+        $this->postInterface->destroyPost($id);
         return redirect('/postlist');
     }
 
     public function search(Request $request)
     {
-        // Get the search value from the request
-        $search = $request->input('search');
-        $posts = DB::table('posts')
-            ->select('users.name','posts.*')
-            ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
-            ->where('posts.title', 'LIKE', "%{$search}%")
-            ->orWhere('posts.description', 'LIKE', "%{$search}%")
-            ->orWhere('users.name', 'LIKE', "%{$search}%")
-            ->paginate(10);
-        // dd($posts);
+       $posts = $this->postInterface->userSearch($request);
 
         // Return the search view with the resluts compacted
         return view('posts/postlist', compact('posts'));

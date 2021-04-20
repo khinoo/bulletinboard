@@ -45,9 +45,12 @@ class LoginController extends Controller
             $posts = DB::table('posts')
             ->select('users.name','posts.*')
             ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
-            ->paginate(5);
+            ->paginate(10);
         }else{
-            $posts =  DB::table('posts')->where('create_user_id', Auth::user()->id)->paginate(5);
+            $posts =  DB::table('posts')
+            ->select('users.name','posts.*')
+            ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
+            ->where('posts.create_user_id', Auth::user()->id)->paginate(10);
         }
      	return view('auth.home',compact('posts'));
     }

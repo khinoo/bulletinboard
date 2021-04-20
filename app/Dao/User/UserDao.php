@@ -61,7 +61,7 @@ class UserDao implements UserDaoInterface
   }
   public function destroyUser($id)
   {
-  	$user = User::find($id);
+  	$user = $this->getEditUserById($id);  
     $user->deleted_at =  Carbon::now();
     $user->deleted_user_id = Auth::user()->id;
     $user->save();
