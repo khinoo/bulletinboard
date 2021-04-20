@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Contracts\Services\User\UserServiceInterface;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,18 @@ use Session;
 
 class UsersController extends Controller
 {
+    private $userInterface;
+    /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+  public function __construct(UserServiceInterface $userInterface)
+  {
+
+    $this->middleware('auth');
+    $this->userInterface = $userInterface;
+  }
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +33,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->whereNull('deleted_at')->paginate(10);
+        $users = $this->userInterface->getUserList();
         return view('users/userlist',compact('users'));
     }
 
@@ -31,9 +44,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        // dd("create");
         $id = null;
-        return view('users/createuser',[ 'id' => $id]);
+        return view('users/createuser',[ 'id' => $id, 'filename' => null]);
     }
 
     /**
@@ -43,36 +55,8 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        // dd($request);
-        $user = new User();
-        $type = ($request->input('type') == "Admin") ? 0 : 1;
-        if($request->input('id') != null) {
-            $user = User::find($request->input('id'));
-            $user->name =   $request->name;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->profile = 'images/'.Auth::user()->id.'/'.$request->filename;
-            $user->type = $type;
-            $user->phone = $request->phone;
-            $user->dob = $request->dob;
-            $user->address = $request->address;
-            $user->updated_user_id = Auth::user()->id;
-            $user->updated_at = Carbon::now();
-        }else{
-            $user->name =   $request->name;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->profile = 'images/'.Auth::user()->id.'/'.$request->filename;
-            $user->type = $type;
-            $user->phone = $request->phone;
-            $user->dob = $request->dob;
-            $user->address = $request->address;
-            $user->created_at = Carbon::now();
-            $user->updated_at = Carbon::now();
-        }
-        
-        $user->save();
+    {        
+        $this->userInterface->saveUser($request);
 
         return redirect('/userlist');
     }
@@ -85,9 +69,9 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        $user =  DB::table('users')->whereNull('deleted_at')->where('id', Auth::user()->id)->first();
+        $user = $this->userInterface->getUserById();
         $filename = substr($user->profile,9);
-        // dd($user);
+
         return view('users.profile', compact('user', 'filename'));
     }
 
@@ -99,15 +83,13 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        // dd($id);
-        $users = User::find($id);
+        $users = $this->userInterface->getEditUserById($id);
         $name = $users->name;
         $email = $users->email;
         $dob = $users->datetimepicker1;
         $address = $users->address;
         $filename = substr($users->profile,9);
-        // dd($filename);
-        // dd($title);
+
         return view('users/createuser', ['name' => $name, 'email' => $email, 'id' => $id, 'dob' => $dob, 'address' => $address, 'filename' => $filename]); 
     }
 
@@ -131,45 +113,19 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->deleted_at =  Carbon::now();
-        $user->deleted_user_id = Auth::user()->id;
-        $user->save();
+        $this->userInterface->destroyUser($id);
         return redirect('/userlist');
     }
 
     public function usersearch(Request $request)
     {
-        // Get the search value from the request
-        // dd($request);
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $createdFrom = $request->input('createdFrom');
-        $createdTo = $request->input('createdTo');
-        if ($name) {
-            $users = DB::table('users')
-            ->where('users.name', 'LIKE', "%{$name}%")->paginate(10);;
-        }elseif($email){
-            $users = DB::table('users')
-            ->where('users.email', 'LIKE', "%{$email}%")->paginate(10);;
-        }elseif($createdFrom){
-            $users = DB::table('users')
-            ->where('users.created_at', 'LIKE', "%{$createdFrom}%")->paginate(10);;
-        }elseif($createdTo){
-            $users = DB::table('users')
-            ->orWhere('users.created_at', 'LIKE', "%{$createdTo}%")->paginate(10);;
-        }else{
-            $users = DB::table('users')->paginate(10);
-        }
-
+        $users = $this->userInterface->userSearch($request);
         // Return the search view with the resluts compacted
         return view('users/userlist', compact('users'));
     }
 
     public function userconfirm(Request $request)
-    {
-        // dd($request->filename);
-        
+    {        
         if($request->image != null){
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -207,8 +163,7 @@ class UsersController extends Controller
 
     public function changepassword(Request $request)
     {
-        // dd($request);
-        $user = User::find($request->id);
+        $user = $this->userInterface->getEditUserById($request->id);
         $current_password = $user->password;
 
         if(!Hash::check($request->current_password, $current_password))
@@ -218,12 +173,8 @@ class UsersController extends Controller
         }elseif(strcmp($request->new_password, $request->new_confirm_password) != 0){ 
             $error = array('new-confirm-password' => 'New Password and New Confirm Password cannot be same.');
             return response()->json(array('error' => $error), 400);  
-        }else {           
-            $user = user::find($request->id);
-            $user->updated_at =  Carbon::now();
-            $user->updated_user_id = Auth::user()->id;
-            $user->password = Hash::make($request->new_password);
-            $user->save();
+        }else {       
+            $this->userInterface->updateUserPassword($request);
             return redirect('/postlist');   
         }
 

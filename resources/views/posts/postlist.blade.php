@@ -84,7 +84,7 @@
 	    <tr>
 	      <th scope="row"><a class="btn btn-link" id="postdetail" href="" data-toggle="modal" data-target="#exampleModal" data-id="{{ $post->id }}">{{ $post->title }}</a></th>
 	      <td>{{ $post->description }}</td>
-	      <td>{{ $post->create_user_id }}</td>
+	      <td>{{ $post->name }}</td>
 	      <td>{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y')}}</td>
 	      <td><a class="btn btn-link" href="/createpost/{{$post->id}}">Edit</a></td>
 	      <td><a class="btn btn-link" onclick="return confirm('Are you sure want to delete this post?')" href="/deletepost/{{$post->id}}">Delete</a></td>
@@ -93,9 +93,9 @@
         <input type="hidden" class="form-control des_{{$post->id}}" id="description" value = "{{ $post->description }}" wire:model="description">
         <input type="hidden" class="form-control status_{{$post->id}}" id="status" value = "{{ $post->status }}" wire:model="status">
         <input type="hidden" class="form-control createdat_{{$post->id}}" id="created_at" value = "{{ $post->created_at }}" wire:model="created_at">
-        <input type="hidden" class="form-control created_user_{{$post->id}}" id="created_user_id" value = "{{ $post->create_user_id }}" wire:model="created_user_id">
+        <input type="hidden" class="form-control created_user_{{$post->id}}" id="created_user_id" value = "{{ $post->name }}" wire:model="created_user_id">
         <input type="hidden" class="form-control updatedat_{{$post->id}}" id="updated_at" value = "{{ $post->updated_at }}" wire:model="updated_at">
-        <input type="hidden" class="form-control updateuser_{{$post->id}}" id="updated_user_id" value = "{{ $post->updated_user_id }}" wire:model="updated_user_id">
+        <input type="hidden" class="form-control updateuser_{{$post->id}}" id="updated_user_id" value = "{{ $post->name }}" wire:model="updated_user_id">
 	    </tr>
 	     @endforeach
   </tbody>
