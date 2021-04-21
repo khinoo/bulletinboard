@@ -122,26 +122,44 @@
             @yield('content')
         </main>
     </div>
+
+    <h3 style="margin-left: 300px;">Post List</h3>
+<br>
+<div class="container">
+    <table class="table table-bordered">
+    <thead>
+        <tr>
+          <th scope="col">Post Title</th>
+          <th scope="col">Post Description</th>
+          <th scope="col">Posted User</th>
+          <th scope="col">Posted Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(isset($posts))
+        @foreach($posts as $post)
+        <tr>
+          <th scope="row"><a class="btn btn-link" data-id="{{ $post->id }}">{{ $post->title }}</a></th>
+          <td>{{ $post->description }}</td>
+          <td>{{ $post->name }}</td>
+          <td>{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y')}}</td>
+
+        <input type="hidden" class="form-control title_{{$post->id}}" id="title" value = "{{ $post->title }}" wire:model="title">
+        <input type="hidden" class="form-control des_{{$post->id}}" id="description" value = "{{ $post->description }}" wire:model="description">
+        <input type="hidden" class="form-control status_{{$post->id}}" id="status" value = "{{ $post->status }}" wire:model="status">
+        <input type="hidden" class="form-control createdat_{{$post->id}}" id="created_at" value = "{{ $post->created_at }}" wire:model="created_at">
+        <input type="hidden" class="form-control created_user_{{$post->id}}" id="created_user_id" value = "{{ $post->name }}" wire:model="created_user_id">
+        <input type="hidden" class="form-control updatedat_{{$post->id}}" id="updated_at" value = "{{ $post->updated_at }}" wire:model="updated_at">
+        <input type="hidden" class="form-control updateuser_{{$post->id}}" id="updated_user_id" value = "{{ $post->name }}" wire:model="updated_user_id">
+        </tr>
+         @endforeach
+         @endif
+  </tbody>
+</table>
+</div>
+<div class="d-flex justify-content-center">
+    {{ $posts->links() }}
+</div>
+
 </body>
-</html>
-        <div class="flex-center position-ref full-height">
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
 </html>

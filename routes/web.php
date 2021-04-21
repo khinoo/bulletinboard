@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Post;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
-    return view('welcome');
+	$posts =  DB::table('posts')
+            ->select('users.name','posts.*')
+            ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')->paginate(10);
+    return view('welcome', ['posts' => $posts]);
 });
 
 Route::group(['prefix' => 'user'], function () {
