@@ -36,7 +36,7 @@ class LoginController extends Controller
     {
       Auth::logout();
 
-      return redirect('user/login');
+      return redirect('/');
     }
 
     public function home()
@@ -45,12 +45,15 @@ class LoginController extends Controller
             $posts = DB::table('posts')
             ->select('users.name','posts.*')
             ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
+            ->whereNull('posts.deleted_at')
             ->paginate(10);
         }else{
             $posts =  DB::table('posts')
             ->select('users.name','posts.*')
             ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
-            ->where('posts.create_user_id', Auth::user()->id)->paginate(10);
+            ->where('posts.create_user_id', Auth::user()->id)
+            ->whereNull('posts.deleted_at')
+            ->paginate(10);
         }
      	return view('auth.home',compact('posts'));
     }

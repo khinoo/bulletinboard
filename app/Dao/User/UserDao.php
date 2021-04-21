@@ -27,7 +27,13 @@ class UserDao implements UserDaoInterface
   public function saveUser($request)
   {
   	$user = new User();
-    $type = ($request->input('type') == "Admin") ? 0 : 1;
+    if($request->input('type') == "Admin"){
+      $type = 0;
+    }elseif($request->input('type') == "User"){
+      $type = 1;
+    }else{
+      $type = 2;
+    }
     if($request->input('id') != null) {
         $user = User::find($request->input('id'));
         $user->name =   $request->name;
