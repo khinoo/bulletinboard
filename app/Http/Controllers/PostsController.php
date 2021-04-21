@@ -61,6 +61,11 @@ class PostsController extends Controller
         $id = null;
         if($request->input('id') != null) {
             $id = $request->input('id');
+        }else{
+            $request->validate([
+                'title' => 'required|string|max:10|unique:posts',
+                'description' => 'required'
+            ]);
         }
         $title = $request->input('title');
         $description = $request->input('description');

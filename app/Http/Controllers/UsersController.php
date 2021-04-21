@@ -125,7 +125,14 @@ class UsersController extends Controller
     }
 
     public function userconfirm(Request $request)
-    {        
+    {   
+        if($request->id == null){
+            $request->validate([
+                'name' => 'required|string|unique:users',
+                'email' => 'string | email | unique:users'
+            ]); 
+        }
+
         if($request->image != null){
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
