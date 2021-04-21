@@ -28,22 +28,14 @@
            $('#description').val($(".des_"+$id).val());
            $('#status').val($(".status_"+$id).val());
 
-            var str = $(".createdat_"+$id).val();
+            var str = $(".created_at_"+$id).val();
             var cyear = str.substr(0, 4);
             var cmonth = str.substr(5, 2);
             var cdate = str.substr(8, 2);
             var created_at = cyear +'/'+ cmonth +'/'+cdate;
 
-            var str = $(".updatedat_"+$id).val();
-            var uyear = str.substr(0, 4);
-            var umonth = str.substr(5, 2);
-            var udate = str.substr(8, 2);
-            var updated_at = uyear +'/'+ umonth +'/'+udate;
-
            $('#created_at').val(created_at);
            $('#created_user_id').val($(".created_user_"+$id).val());
-           $('#updated_at').val(updated_at);
-           $('#updated_user_id').val($(".updateuser_"+$id).val());
         });
 
          $(document).on('click', '#userdetail', function(event) {
@@ -55,10 +47,12 @@
             var dob = dobyear +'/'+ dobmonth +'/'+dobdate;
            $('#username').val($(".name_"+$id).val());
            $('#useremail').val($(".email_"+$id).val());
-           $('#type').val($(".type_"+$id).val());
            $('#phone').val($(".phone_"+$id).val());
            $('#address').val($(".address_"+$id).val());
            $('#dob').val(dob);
+        });
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
         });
     });
 </script>
@@ -125,6 +119,11 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <footer>
+            <div class="footer-copyright text-center py-3">
+                <a href="http://seattleconsultingmyanmar.com/en/"> Copyright © Seattle Consulting Myanmar Co., Ltd. All rights reserved.</a>
+            </div>
+        </footer>
     </div>
 </body>
 </html>

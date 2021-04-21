@@ -21,6 +21,7 @@
 </head>
 <body>
     <div id="app">
+        @if (!Route::has('login'))
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -57,10 +58,15 @@
                 </div>
             </div>
         </nav>
-
+        @endif
         <main class="py-4">
             @yield('content')
         </main>
+        <footer>
+            <div class="footer-copyright text-center py-3">
+                <a href="http://seattleconsultingmyanmar.com/en/"> Copyright © Seattle Consulting Myanmar Co., Ltd. All rights reserved.</a>
+            </div>
+        </footer>
     </div>
 </body>
 </html>

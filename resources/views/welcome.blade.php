@@ -92,7 +92,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
+                <h2 class="text-center font-weight-light my-4">SCM Bulletin Board</h2>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
@@ -123,7 +123,10 @@
         </main>
     </div>
 
-    <h3 style="margin-left: 300px;">Post List</h3>
+    <div class="container">
+        <h3>Post List</h3>
+        <button type="button" onclick="window.location='{{ url("/export") }}'" class="btn btn-primary">Download</button>
+    </div>
 <br>
 <div class="container">
     <table class="table table-bordered">
@@ -160,6 +163,10 @@
 <div class="d-flex justify-content-center">
     {{ $posts->links() }}
 </div>
-
+<footer>
+    <div class="footer-copyright text-center py-3">
+        <a href="http://seattleconsultingmyanmar.com/en/"> Copyright © Seattle Consulting Myanmar Co., Ltd. All rights reserved.</a>
+    </div>
+</footer>
 </body>
 </html>
