@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
 <div class="container">
      <div class="row justify-content-center">
         <div class="col-md-8">
@@ -34,6 +33,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     Send Password Reset Link
                                 </button>
+                                <button type="button" class="btn btn-light"><a href="javascript:history.back()">
+                                        {{ __('Cancel') }}</a>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -42,5 +44,4 @@
         </div>
     </div>
 </div>
-
 @endsection

@@ -1,6 +1,7 @@
 @extends('layouts.comheader')
 @section('content')
-<h3>User List</h3>
+<h3 style="margin-left: 290px;" class="text-primary">User List</h3>
+<br>
 <div class="container">
 	<form action="/usersearch" method="get" id="selectform">
 	 <input id="name" type="" class="is-invalid" name="name" value="" placeholder="Name">
@@ -18,7 +19,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Post Deatail Screen </h5>
+                <h5 class="modal-title" id="exampleModalLabel">User Detail Screen </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true close-btn">×</span>
                 </button>
@@ -32,10 +33,6 @@
                     <div class="form-group">
                         <label for="useremail">Email</label>
                         <input type="text" class="form-control" id="useremail" wire:model="useremail">
-                    </div>
-                    <div class="form-group">
-                        <label for="type">Type</label>
-                        <input type="text" class="form-control" id="type" wire:model="type">
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone</label>
@@ -70,8 +67,10 @@
 	      <th scope="col">Address</th>
 	      <th scope="col">Created Date</th>
 	      <th scope="col">Updated Date</th>
-	      <th scope="col"></th>
-	      <th scope="col"></th>
+           @if( Auth::user()->type == 0 )
+	      <th scope="col">Edit User</th>
+	      <th scope="col">Delete User</th>
+          @endif
 	    </tr>
   	</thead>
   	<tbody>
@@ -79,18 +78,19 @@
 	    <tr>
 	      <th scope="row"><a class="btn btn-link" id="userdetail" href="" data-toggle="modal" data-target="#exampleModal" data-id="{{ $user->id }}">{{ $user->name }}</a></th>
 	      <td>{{ $user->email }}</td>
-	      <td>{{ $user->create_user_id }}</td>
+	      <td> Admin </td>
 	      <td>{{ $user->phone }}</td>
 	      <td>{{ \Carbon\Carbon::parse($user->dob)->format('d/m/Y')}}</td>
 	      <td>{{ $user->address }}</td>
 	      <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y')}}</td>
 	      <td>{{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y')}}</td>
-	      <td><a class="btn btn-link" href="/createuser/{{$user->id}}">Edit</a></td>
-	      <td><a class="btn btn-link" onclick="return confirm('Are you sure want to delete this post?')" href="/deleteuser/{{$user->id}}">Delete</a></td>
+          @if( Auth::user()->type == 0 )
+	      <td><a class="btn btn-outline-info" href="/createuser/{{$user->id}}">Edit</a></td>
+	      <td><a class="btn btn-outline-danger" onclick="return confirm('Are you sure want to delete this post?')" href="/deleteuser/{{$user->id}}">Delete</a></td>
+          @endif
 
 	    <input type="hidden" class="form-control name_{{$user->id}}" id="name" value = "{{ $user->name }}" wire:model="name">
         <input type="hidden" class="form-control email_{{$user->id}}" id="email" value = "{{ $user->email }}" wire:model="email">
-        <input type="hidden" class="form-control type_{{$user->id}}" id="type" value = "{{ $user->type }}" wire:model="type">
         <input type="hidden" class="form-control phone_{{$user->id}}" id="phone" value = "{{ $user->phone }}" wire:model="phone">
         <input type="hidden" class="form-control address_{{$user->id}}" id="address" value = "{{ $user->address }}" wire:model="address">
         <input type="hidden" class="form-control dob_{{$user->id}}" id="dob" value = "{{ $user->dob }}" wire:model="dob">

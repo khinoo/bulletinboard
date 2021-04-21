@@ -7,7 +7,7 @@
     </div>
   @endif
 </div>
-<h3>Post List</h3>
+<h3 style="margin-left: 290px;" class="text-primary">Post List</h3>
 <div class="container">
 	<form action="/search" method="get" id="selectform">
 	 <input  type="text" class="is-invalid" name="search" id="search" value="" >
@@ -24,7 +24,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Post Deatail Screen </h5>
+                <h5 class="modal-title" id="exampleModalLabel">Post Detail Screen </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true close-btn">×</span>
                 </button>
@@ -51,14 +51,6 @@
                         <label for="created_user_id">Created_User_ID</label>
                         <input type="text" class="form-control" id="created_user_id" wire:model="created_user_id">
                     </div>
-                    <div class="form-group">
-                        <label for="updated_at">Updated_At</label>
-                        <input type="text" class="form-control" id="updated_at" wire:model="updated_at">
-                    </div>
-                    <div class="form-group">
-                        <label for="updated_user_id">Updated_User_ID</label>
-                        <input type="text" class="form-control" id="updated_user_id" wire:model="updated_user_id">
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -75,27 +67,32 @@
 	      <th scope="col">Post Description</th>
 	      <th scope="col">Posted User</th>
 	      <th scope="col">Posted Date</th>
-	      <th scope="col"></th>
-	      <th scope="col"></th>
+          @if( Auth::user()->type != 2 )
+	      <th scope="col">Edit Post</th>
+	      <th scope="col">Delete Post</th>
+          @endif
 	    </tr>
   	</thead>
   	<tbody>
   		@foreach($posts as $post)
-	    <tr>
+        @if($post->status == 1)
+	    <tr class="table-active" data-toggle="tooltip" data-placement="top" title="This Post is Active Post">
+        @else
+        <tr>
+        @endif
 	      <th scope="row"><a class="btn btn-link" id="postdetail" href="" data-toggle="modal" data-target="#exampleModal" data-id="{{ $post->id }}">{{ $post->title }}</a></th>
-	      <td>{{ $post->description }}</td>
+	      <td>{{ $post->description }}<span class="glyphicon glyphicon-trash"></span></td>
 	      <td>{{ $post->name }}</td>
 	      <td>{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y')}}</td>
-	      <td><a class="btn btn-link" href="/createpost/{{$post->id}}">Edit</a></td>
-	      <td><a class="btn btn-link" onclick="return confirm('Are you sure want to delete this post?')" href="/deletepost/{{$post->id}}">Delete</a></td>
-
+          @if( Auth::user()->type != 2 )
+	      <td><a class="btn btn-outline-info" href="/createpost/{{$post->id}}">Edit</a></td>
+	      <td><a class="btn btn-outline-danger" onclick="return confirm('Are you sure want to delete this post?')" href="/deletepost/{{$post->id}}">Delete</a></td>
+          @endif
         <input type="hidden" class="form-control title_{{$post->id}}" id="title" value = "{{ $post->title }}" wire:model="title">
         <input type="hidden" class="form-control des_{{$post->id}}" id="description" value = "{{ $post->description }}" wire:model="description">
         <input type="hidden" class="form-control status_{{$post->id}}" id="status" value = "{{ $post->status }}" wire:model="status">
-        <input type="hidden" class="form-control createdat_{{$post->id}}" id="created_at" value = "{{ $post->created_at }}" wire:model="created_at">
-        <input type="hidden" class="form-control created_user_{{$post->id}}" id="created_user_id" value = "{{ $post->name }}" wire:model="created_user_id">
-        <input type="hidden" class="form-control updatedat_{{$post->id}}" id="updated_at" value = "{{ $post->updated_at }}" wire:model="updated_at">
-        <input type="hidden" class="form-control updateuser_{{$post->id}}" id="updated_user_id" value = "{{ $post->name }}" wire:model="updated_user_id">
+        <input type="hidden" class="form-control created_at_{{$post->id}}" id="created_at" value = "{{ $post->created_at }}" wire:model="created_at">
+        <input type="hidden" class="form-control created_user_{{$post->id}}" id="create_user_id" value = "{{ $post->name }}" wire:model="created_user_id">
 	    </tr>
 	     @endforeach
   </tbody>

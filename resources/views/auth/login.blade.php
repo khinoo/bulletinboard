@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- <link href="{{ asset('../../sass/styles.css') }}" rel="stylesheet"> -->
     <h2 class="text-center font-weight-light my-4">SCM Bulletin Board</h2>
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
@@ -32,6 +31,9 @@
                                                 </span>
                                             @enderror
                                         </div>
+                                        <div class="col">
+                                            <label style="color: red;">*</label>
+                                        </div>
                                     </div>
 
                                     <div class="form-group row">
@@ -45,6 +47,9 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                        </div>
+                                        <div class="col">
+                                            <label style="color: red;">*</label>
                                         </div>
                                     </div>
 
