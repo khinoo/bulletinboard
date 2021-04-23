@@ -11,51 +11,16 @@
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="{{ asset('js/app.js') }}" defer></script>    
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/detailpopup.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
 </head>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(document).on('click', '#postdetail', function(event) {
-           $id =  $(this).attr('data-id');
-           $('#title').val($(".title_"+$id).val());
-           $('#description').val($(".des_"+$id).val());
-           $('#status').val($(".status_"+$id).val());
-
-            var str = $(".created_at_"+$id).val();
-            var cyear = str.substr(0, 4);
-            var cmonth = str.substr(5, 2);
-            var cdate = str.substr(8, 2);
-            var created_at = cyear +'/'+ cmonth +'/'+cdate;
-
-           $('#created_at').val(created_at);
-           $('#created_user_id').val($(".created_user_"+$id).val());
-        });
-
-         $(document).on('click', '#userdetail', function(event) {
-           $id =  $(this).attr('data-id');
-           var str = $(".dob_"+$id).val();
-            var dobyear = str.substr(0, 4);
-            var dobmonth = str.substr(5, 2);
-            var dobdate = str.substr(8, 2);
-            var dob = dobyear +'/'+ dobmonth +'/'+dobdate;
-           $('#username').val($(".name_"+$id).val());
-           $('#useremail').val($(".email_"+$id).val());
-           $('#phone').val($(".phone_"+$id).val());
-           $('#address').val($(".address_"+$id).val());
-           $('#dob').val(dob);
-        });
-        $(function () {
-          $('[data-toggle="tooltip"]').tooltip()
-        });
-    });
-</script>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -64,22 +29,22 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <h2 class="text-center font-weight-light my-4">SCM Bulletin Board</h2>
+                <h2 class="text-center font-weight-light my-4 text-primary">SCM Bulletin Board</h2>
                 <ul class="navbar-nav ml-auto">
                 @if( Auth::user()->type == 0 )
                 <li class="nav-item dropdown">
-                    <a class="dropdown-item" href="/userlist">
+                    <a class="dropdown-item text-primary" href="/userlist" data-toggle="tooltip" data-placement="top" title="Go to the userlist">
                         {{ Auth::user()->name }}
                     </a>
                 </li>
                 @endif
                 <li class="nav-item dropdown">
-                    <a class="dropdown-item" href="/profile">
+                    <a class="dropdown-item text-primary" href="/profile" data-toggle="tooltip" data-placement="top" title="Go to the user profile">
                         {{ Auth::user()->name }}
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="dropdown-item" href="/postlist">
+                    <a class="dropdown-item text-primary" href="/postlist" data-toggle="tooltip" data-placement="top" title="Go to the Post List">
                         Posts
                     </a>
                 </li>
@@ -101,12 +66,12 @@
                         @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a class="dropdown-item">
+                                <a class="dropdown-item text-primary">
                                     {{ Auth::user()->name }}
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}">
+                                <a class="dropdown-item text-primary" href="{{ route('logout') }}">
                                     {{ __('Logout') }}
                                 </a>
                             </li>
