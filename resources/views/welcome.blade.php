@@ -83,7 +83,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
     <div id="app">
@@ -92,7 +92,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <h2 class="text-center font-weight-light my-4">SCM Bulletin Board</h2>
+                <h2 class="text-center font-weight-light my-4 text-primary">SCM Bulletin Board</h2>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
@@ -104,11 +104,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link text-primary" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @else
                             <li class="nav-item dropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}">
+                                <a class="dropdown-item text-primary" href="{{ route('logout') }}">
                                     {{ __('Logout') }}
                                 </a>
                             </li>
@@ -124,7 +124,7 @@
     </div>
 
     <div class="container">
-        <h3>Post List</h3>
+        <h3 class="text-primary">Post List</h3>
         <button type="button" onclick="window.location='{{ url("/export") }}'" class="btn btn-primary">Download</button>
     </div>
 <br>
