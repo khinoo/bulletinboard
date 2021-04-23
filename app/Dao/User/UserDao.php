@@ -38,7 +38,6 @@ class UserDao implements UserDaoInterface
         $user = User::find($request->input('id'));
         $user->name =   $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
         $user->profile = 'images/'.Auth::user()->id.'/'.$request->filename;
         $user->type = $type;
         $user->phone = $request->phone;
@@ -54,6 +53,7 @@ class UserDao implements UserDaoInterface
         $user->type = $type;
         $user->phone = $request->phone;
         $user->dob = $request->dob;
+        $user->create_user_id = Auth::user()->id;
         $user->address = $request->address;
         $user->created_at = Carbon::now();
         $user->updated_at = Carbon::now();
@@ -74,10 +74,10 @@ class UserDao implements UserDaoInterface
   }
   public function userSearch($request)
   {
-	$name = $request->input('name');
+	  $name = $request->input('name');
     $email = $request->input('email');
-    $createdFrom = $request->input('createdFrom');
-    $createdTo = $request->input('createdTo');
+    $createdFrom = ( $request->createdFrom != null ) ? Carbon::createFromFormat('d/m/Y', $request->createdFrom)->format('Y-m-d') : null;
+    $createdTo = ( $request->createdTo != null ) ? Carbon::createFromFormat('d/m/Y', $request->createdTo)->format('Y-m-d') : null;
     if ($name) {
         $users = DB::table('users')
         ->where('users.name', 'LIKE', "%{$name}%")->paginate(10);
@@ -86,10 +86,10 @@ class UserDao implements UserDaoInterface
         ->where('users.email', 'LIKE', "%{$email}%")->paginate(10);;
     }elseif($createdFrom){
         $users = DB::table('users')
-        ->where('users.created_at', 'LIKE', "%{$createdFrom}%")->paginate(10);;
+        ->where('created_at', '>=', $createdFrom)->paginate(10);
     }elseif($createdTo){
         $users = DB::table('users')
-        ->orWhere('users.created_at', 'LIKE', "%{$createdTo}%")->paginate(10);;
+        ->where('created_at', '<=', $createdTo)->paginate(10);
     }else{
         $users = DB::table('users')->paginate(10);
     }
