@@ -15,7 +15,6 @@ class PostsImport implements ToModel
     */
     public function model(array $row)
     {
-        // dd($row);
         return new Post([
             'title'     => $row[0],
             'description'    => $row[1], 

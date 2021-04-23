@@ -33,46 +33,58 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('User Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ isset($name) ? $name : '' }}" required placeholder="Enter User Name" autofocus>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ isset($name) ? $name : old('name') }}" required placeholder="Enter User Name" autofocus>
                                 </div>
                                 <div class="col">
                                     <label style="color: red;">*</label>
                                 </div>
                             </div>
+                            @if ($errors->has('name')) 
+                                <div class="alert alert-danger" role="alert">{{ $errors->first('name') }}</div>
+                            @enderror
 
                             <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ isset($email) ? $email : '' }}" required placeholder="Enter User Name" autofocus>
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ isset($email) ? $email : old('email') }}" required placeholder="Enter Email Address" autofocus>
                                 </div>
                                 <div class="col">
                                     <label style="color: red;">*</label>
                                 </div>
                             </div>
+                            @if ($errors->has('email')) 
+                                <div class="alert alert-danger" role="alert">{{ $errors->first('email') }}</div>
+                            @enderror
 
                             @if($id == null)
                             <div class="form-group row">
                                 <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ isset($password) ? $password : '' }}" required autofocus>
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ isset($password) ? $password : old('password') }}"  minlenght="6" autofocus required>
                                 </div>
                                 <div class="col">
                                     <label style="color: red;">*</label>
                                 </div>
                             </div>
+                            @if ($errors->has('password')) 
+                                <div class="alert alert-danger" role="alert">{{ $errors->first('password') }}</div>
+                            @enderror
 
                             <div class="form-group row">
                                 <label for="confirmpsw" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="confirmpsw" type="password" class="form-control @error('confirmpsw') is-invalid @enderror" name="confirmpsw" value="{{ isset($confirmpsw) ? $confirmpsw : '' }}" required>
+                                    <input id="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" value="{{ isset($password_confirmation) ? $password_confirmation : old('password_confirmation') }}" required>
                                 </div>
                                 <div class="col">
                                     <label style="color: red;">*</label>
                                 </div>
                             </div>
+                            @if ($errors->has('password_confirmation')) 
+                                <div class="alert alert-danger" role="alert">{{ $errors->first('password_confirmation') }}</div>
+                            @enderror
                             @endif
 
                             <div class="form-group row">
@@ -94,44 +106,46 @@
                                 <input type="hidden" class="form-control @error('id') is-invalid @enderror" id="id" name="id" placeholder="id" value="{{ isset($id) ? $id : '' }}">
                                 <label for="phone"  class="col-md-4 col-form-label text-md-right">Phone</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" placeholder="phone" value="{{ isset($phone) ? $phone : '' }}">
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" placeholder="phone" value="">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <input type="hidden" class="form-control @error('id') is-invalid @enderror" id="id" name="id" placeholder="id" value="{{ isset($id) ? $id : '' }}">
-                                <label for="dob"  class="col-md-4 col-form-label text-md-right date" id="datepicker">Date Of Birth</label>
+                                <input type="hidden" class="form-control @error('id') is-invalid @enderror" id="id" name="id" value="{{ isset($id) ? $id : '' }}">
+                                <label for="dob"  class="col-md-4 col-form-label text-md-right date">Date Of Birth</label>
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control @error('dob') is-invalid @enderror" id="dob" name="dob" placeholder="dob" value="{{ isset($dob) ? $dob : '' }}">
+                                    <input type="date" class="form-control @error('dob') is-invalid @enderror datepicker" id="dob" name="dob" value="">
+                                    <input type="hidden" class="form-control @error('dob') is-invalid @enderror" id="dateofbirth" value="{{ isset($dob) ? $dob : old('dob') }}">
                                 </div>
                             </div>
-
 
                             <div class="form-group row">
                                 <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" placeholder="Enter Address">{{ isset($address) ? $address : '' }}</textarea>
-                                    @error('address')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
+                                    <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="old('address')" placeholder="Enter Address">{{ isset($address) ? $address : '' }}</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="profile" class="col-md-4 col-form-label text-md-right">Profile</label>
                                 <div class="col-md-6">
+                                    @if(!$filename)
+                                    <input type="file" name="image" class="form-control" required>
+                                    @else
                                     <input type="file" name="image" class="form-control">
+                                    @endif
+
                                 </div>
                                 <div class="col">
                                     <label style="color: red;">*</label>
                                 </div>
                                 <input type="hidden" name="filename" value="{{$filename}}">
                             </div>
-                             @if($id != null)
+                            @if ($errors->has('image')) 
+                                <div class="alert alert-danger" role="alert">{{ $errors->first('image') }}</div>
+                            @enderror
+                            @if($id != null)
                             <div class="form-group row">
                             <a class="btn btn-link" href="/changepassword/{{$id}}">Change Password</a>
                             </div>

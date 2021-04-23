@@ -17,13 +17,8 @@
                             <div class="card-body">  
                             <form action="/createuser" method="post" id="selectform" enctype="multipart/form-data">
                             @csrf
-                            @if ($errors->any())
-                                <div class="alert alert-danger" role="alert">
-                                    Please fix the following errors
-                                </div>
-                            @endif
 
-                            @if($id != null && $filename != null)
+                            @if($filename != null)
                             <img src="../images/{{ $filename }}" style="margin-left: 100px;" alt="profile Pic" height="200" width="200">
                             @endif
                             <br><br>
@@ -36,9 +31,6 @@
 
                                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ isset($name) ? $name : '' }}" required placeholder="Enter User Name" autofocus>
                                 </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
-                                </div>
                             </div>
 
                             <div class="form-group row">
@@ -47,9 +39,6 @@
                                 <div class="col-md-6">
                                     <input type="hidden" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="email" value="{{ isset($email) ? $email : '' }}">
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ isset($email) ? $email : '' }}" required placeholder="Enter User Name" autofocus>
-                                </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
                                 </div>
                             </div>
 
@@ -62,9 +51,6 @@
 
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ isset($password) ? $password : '' }}" required autofocus>
                                 </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
-                                </div>
                             </div>
 
                             <div class="form-group row">
@@ -73,9 +59,6 @@
                                 <div class="col-md-6">
                                     <input type="hidden" class="form-control @error('confirmpsw') is-invalid @enderror" id="confirmpsw" name="confirmpsw" placeholder="confirmpsw" value="{{ isset($confirmpsw) ? $confirmpsw : '' }}">
                                     <input id="confirmpsw" type="password" class="form-control @error('confirmpsw') is-invalid @enderror" name="confirmpsw" value="{{ isset($confirmpsw) ? $confirmpsw : '' }}" required>
-                                </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
                                 </div>
                             </div>
                             @endif
@@ -86,9 +69,6 @@
                                     <input type="hidden" class="form-control @error('type') is-invalid @enderror" id="type" name="type" placeholder="type" value="{{ isset($type) ? $type : '' }}">
 
                                     <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" placeholder="type" value="{{ isset($type) ? $type : '' }}">
-                                </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
                                 </div>
                             </div>
 
@@ -104,7 +84,8 @@
                                 <input type="hidden" class="form-control @error('id') is-invalid @enderror" id="id" name="id" placeholder="id" value="{{ isset($id) ? $id : '' }}">
                                 <label for="dob"  class="col-md-4 col-form-label text-md-right date" id="datepicker">Date Of Birth</label>
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control @error('dob') is-invalid @enderror" id="dob" name="dob" placeholder="dob" value="{{ isset($dob) ? $dob : '' }}">
+                                    <input type="date" class="form-control @error('dob') is-invalid @enderror" id="dob" name="dob" value="">
+                                    <input type="hidden" class="form-control @error('dob') is-invalid @enderror" id="dateofbirth" value="{{ isset($dob) ? $dob : '' }}">
                                 </div>
                             </div>
 
@@ -119,9 +100,6 @@
                                     @enderror
                                     <input type="hidden" class="form-control @error('address') is-invalid @enderror" id="address" name="address" placeholder="address" value="{{ isset($address) ? $address : '' }}">
                                     <input type="hidden" class="form-control @error('filename') is-invalid @enderror" id="filename" name="filename" placeholder="filename" value="{{ isset($filename) ? $filename : '' }}">
-                                </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
                                 </div>
                             </div>
 

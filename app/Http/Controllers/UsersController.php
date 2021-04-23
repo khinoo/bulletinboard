@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Session;
 
@@ -86,7 +87,7 @@ class UsersController extends Controller
         $users = $this->userInterface->getEditUserById($id);
         $name = $users->name;
         $email = $users->email;
-        $dob = $users->datetimepicker1;
+        $dob = $users->dob;
         $address = $users->address;
         $filename = substr($users->profile,9);
 
@@ -127,16 +128,25 @@ class UsersController extends Controller
     public function userconfirm(Request $request)
     {   
         if($request->id == null){
-            $request->validate([
-                'name' => 'required|string|unique:users',
-                'email' => 'string | email | unique:users'
-            ]); 
+            $validator = Validator::make($request->all(), [
+                 'name' => 'required|string|unique:users',
+                 'email' => 'required|string | email | unique:users',
+                 'password' => 'required|min:6|max:10|confirmed',
+                 'password_confirmation' => 'required|min:6|max:10'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
         }
 
         if($request->image != null){
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
       
             $imageName = time().'.'.$request->image->extension();  
        
@@ -153,7 +163,7 @@ class UsersController extends Controller
         $name = $request->input('name');
         $email = $request->input('email');
         $password = $request->input('password');
-        $confirmpsw = $request->input('confirmpsw');
+        $confirmpsw = $request->input('password_confirmation');
         $type = $request->input('type');
         $phone = $request->input('phone');
         $dob = $request->input('dob');

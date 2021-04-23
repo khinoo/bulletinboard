@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
 class PostsController extends Controller
@@ -62,10 +63,16 @@ class PostsController extends Controller
         if($request->input('id') != null) {
             $id = $request->input('id');
         }else{
-            $request->validate([
-                'title' => 'required|string|max:10|unique:posts',
-                'description' => 'required'
+            $validator = Validator::make($request->all(), [
+                 'title' => 'required|string|max:255|unique:posts',
+                 'description' => 'required'
             ]);
+
+            
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+               
         }
         $title = $request->input('title');
         $description = $request->input('description');

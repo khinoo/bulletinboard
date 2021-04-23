@@ -8,7 +8,12 @@
    
                 <div class="card-body">
                     <form method="POST" action="/import" enctype="multipart/form-data">
-                        @csrf 
+                        @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                {{$errors->first()}}
+                            </div>
+                        @endif 
                         <div class="col-md-8">
                             <input type='file' name='file'>
                         </div>
@@ -18,6 +23,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Import File
                                 </button>
+                                <a href="javascript:history.back()"><button type="button" class="btn btn-light">{{ __('Cancel') }}</button></a>
                             </div>
                         </div>
                     </form>
