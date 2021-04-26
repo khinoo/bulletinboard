@@ -122,7 +122,7 @@ class UsersController extends Controller
     {
         $users = $this->userInterface->userSearch($request);
         // Return the search view with the resluts compacted
-        return view('users/userlist', compact('users'));
+        return view('users/userlist', ['users' => $users,'request' => $request ]);
     }
 
     public function userconfirm(Request $request)

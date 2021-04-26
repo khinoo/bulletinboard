@@ -137,9 +137,8 @@ class PostsController extends Controller
     public function search(Request $request)
     {
        $posts = $this->postInterface->userSearch($request);
-
         // Return the search view with the resluts compacted
-        return view('posts/postlist', compact('posts'));
+        return view('posts/postlist', ['posts' => $posts,'request' => $request ]);
     }
 
     public function uploadview()

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Imports\PostsImport;
 use App\Exports\PostsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
 use Redirect;
 
 class ImportExportController extends Controller
@@ -31,12 +32,15 @@ class ImportExportController extends Controller
     */
     public function import(Request $request) 
     {
-        $extension = request()->file('file')->extension();
+        $extension = $request->file('file')->extension();
         if($extension != "csv"){
             return Redirect::back()->withErrors(['The file must be csv.!!!']);
         }
+        Excel::import(new PostsImport,$request->file('file'));
 
-        Excel::import(new PostsImport,request()->file('file'));
+        $fileName = time().'.'.$request->file('file')->extension();  
+       
+        $request->file('file')->move(public_path('csv/'.Auth::user()->id.'/'), $request->file('file')->getClientOriginalName());
 
         return redirect('/postlist')->with(['Successfully imported.!!!']);
     }
