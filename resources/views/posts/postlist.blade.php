@@ -7,10 +7,10 @@
     </div>
   @endif
 </div>
-<h3 style="margin-left: 290px;" class="text-primary">Post List</h3>
+<h3 style="margin-left: 201px;" class="text-primary">Post List</h3>
 <div class="container">
 	<form action="/search" method="get" id="selectform">
-	 <input  type="text" class="is-invalid" name="search" id="search" value="" >
+	 <input  type="text" class="is-invalid" name="search" id="search" value="{{ isset($request->search) ? $request->search : ''}}" >
 	 <button type="submit" class="btn btn-primary">Search</button>
 	 <button type="button" onclick="window.location='{{ url("/posts") }}'" class="btn btn-primary">Add</button>
 	 <button type="button" onclick="window.location='{{ url("/uploadview") }}'" class="btn btn-primary">Upload</button>

@@ -1,13 +1,13 @@
 @extends('layouts.comheader')
 @section('content')
-<h3 style="margin-left: 290px;" class="text-primary">User List</h3>
+<h3 style="margin-left: 201px;" class="text-primary">User List</h3>
 <br>
 <div class="container">
 	<form action="/usersearch" method="get" id="selectform">
-	 <input id="name" type="" class="is-invalid" name="name" value="" placeholder="Name">
-	 <input id="email" type="" class="is-invalid" name="email" value="" placeholder="Email">
-	 <input id="createdFrom" type="" class="is-invalid" name="createdFrom" value="" placeholder="CreatedFrome">
-	 <input id="createdTo" type="" class="is-invalid" name="createdTo" value="" placeholder="CreatedTo">
+	 <input id="name" type="" class="is-invalid" name="name" value="{{ isset($request->name) ? $request->name : ''}}">
+	 <input id="email" type="" class="is-invalid" name="email" value="{{ isset($request->email) ? $request->email : ''}}">
+	 <input id="createdFrom" type="" class="is-invalid" name="createdFrom" value="{{ isset($request->createdFrom) ? $request->createdFrom : ''}}">
+	 <input id="createdTo" type="" class="is-invalid" name="createdTo" value="{{ isset($request->createdTo) ? $request->createdTo : ''}}">
 	 <button type="submit" class="btn btn-primary">Search</button>
 	 <button type="button" onclick="window.location='{{ url("/createuser") }}'" class="btn btn-primary">Add</button>
 	</form>
