@@ -58,8 +58,12 @@ class UsersController extends Controller
     public function store(Request $request)
     {        
         $this->userInterface->saveUser($request);
-
-        return redirect('/userlist');
+        if($request->input('id') != null){
+            $message = 'Updated User Successfully !';
+        }else{
+            $message = 'Created User Successfully !';
+        }
+        return redirect('/userlist')->with('success', $message);
     }
 
     /**
@@ -115,7 +119,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
         $this->userInterface->destroyUser($id);
-        return redirect('/userlist');
+        return redirect('/userlist')->with('success','User Deleted Successfully !');
     }
 
     public function usersearch(Request $request)
@@ -186,15 +190,13 @@ class UsersController extends Controller
         if(!Hash::check($request->current_password, $current_password))
         {   
             $error = array('current-password' => 'Please enter correct current password');
-            return response()->json(array('error' => $error), 400);  
+            return redirect()->back()->withErrors($error);
         }elseif(strcmp($request->new_password, $request->new_confirm_password) != 0){ 
             $error = array('new-confirm-password' => 'New Password and New Confirm Password cannot be same.');
-            return response()->json(array('error' => $error), 400);  
+            return redirect()->back()->withErrors($error);
         }else {       
             $this->userInterface->updateUserPassword($request);
-            return redirect('/postlist');   
+            return redirect('/postlist')->with('success','Password Change Successfully !');
         }
-
-        return redirect()->back()->with("success","Password changed successfully !");
     }
 }

@@ -28,12 +28,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('User Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input type="hidden" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="name" value="{{ isset($user->name) ? $user->name : '' }}">
-
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ isset($user->name) ? $user->name : '' }}" required placeholder="Enter User Name" autofocus>
-                                </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ isset($user->name) ? $user->name : '' }}" disabled="true">
                                 </div>
                             </div>
 
@@ -41,11 +36,7 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input type="hidden" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="email" value="{{ isset($user->email) ? $user->email : '' }}">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ isset($user->email) ? $user->email : '' }}" required placeholder="Enter User Name" autofocus>
-                                </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ isset($user->email) ? $user->email : '' }}" disabled="true">
                                 </div>
                             </div>
 
@@ -61,28 +52,21 @@
                                     @endphp       
                                 @endif
                                 <div class="col-md-6">
-                                    <input type="hidden" class="form-control @error('type') is-invalid @enderror" id="type" name="type" placeholder="type" value="{{ isset($type) ? $type : '' }}">
-
-                                    <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" placeholder="type" value="{{ isset($type) ? $type : '' }}">
-                                </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
+                                    <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" value="{{ isset($type) ? $type : '' }}" disabled="true">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <input type="hidden" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" placeholder="phone" value="{{ isset($user->phone) ? $user->phone : '' }}">
                                 <label for="phone"  class="col-md-4 col-form-label text-md-right">Phone</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" placeholder="phone" value="{{ isset($user->phone) ? $user->phone : '' }}">
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ isset($user->phone) ? $user->phone : '' }}" disabled="true">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="dob"  class="col-md-4 col-form-label text-md-right date">Date Of Birth</label>
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control @error('dob') is-invalid @enderror datepicker" id="dob" name="dob" value="">
-                                    <input type="hidden" class="form-control @error('dob') is-invalid @enderror" id="dateofbirth" value="{{ isset($user->dob) ? $user->dob : '' }}">
+                                    <input type="date" class="form-control @error('dob') is-invalid @enderror datepicker" id="dateofbirth" name="dob" value="{{ isset($user->dob) ? $user->dob : '' }}" disabled="true">
                                 </div>
                             </div>
 
@@ -91,15 +75,7 @@
                                 <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" placeholder="Enter Address">{{ isset($user->address) ? $user->address : '' }}</textarea>
-                                    @error('address')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <input type="hidden" class="form-control @error('address') is-invalid @enderror" id="address" name="address" placeholder="address" value="{{ isset($address) ? $user->address : '' }}">
-                                    <input type="hidden" class="form-control @error('filename') is-invalid @enderror" id="filename" name="filename" placeholder="filename" value="{{ isset($filename) ? $filename : '' }}">
-                                </div>
-                                <div class="col">
-                                    <label style="color: red;">*</label>
+                                    <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" disabled>{{ isset($user->address) ? $user->address : '' }}</textarea>
                                 </div>
                             </div>
 

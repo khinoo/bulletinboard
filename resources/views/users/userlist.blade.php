@@ -1,5 +1,13 @@
 @extends('layouts.comheader')
 @section('content')
+<div class="col-sm-12">
+    @if ($message = Session::get('success'))
+      <div class="alert alert-success alert-block">
+          <button type="button" class="close" data-dismiss="alert">×</button>    
+          <strong>{{ $message }}</strong>
+      </div>
+    @endif
+</div>
 <h3 style="margin-left: 201px;" class="text-primary">User List</h3>
 <br>
 <div class="container">

@@ -28,12 +28,10 @@
                                 <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Post Title') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="title" type="title" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ isset($title) ? $title : '' }}" required placeholder="Enter Post Title" autofocus>
+                                    <input id="title" type="title" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ isset($title) ? $title : old('title')}}" required placeholder="Enter Post Title" autofocus>
 
-                                    @error('title')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                    @if ($errors->has('title')) 
+                                        <div class="alert alert-danger" role="alert">{{ $errors->first('title') }}</div>
                                     @enderror
                                 </div>
                                 <div class="col">
@@ -45,9 +43,9 @@
                                 <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Post Description') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="description">{{ isset($description) ? $description : '' }}</textarea>
-                                    @error('description')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="description" value="{{ old('description') }}">{{ isset($description) ? $description : old('description') }}</textarea>
+                                    @if ($errors->has('description')) 
+                                        <div class="alert alert-danger" role="alert">{{ $errors->first('description') }}</div>
                                     @enderror
                                 </div>
                                 <div class="col">

@@ -41,7 +41,7 @@ class LoginController extends Controller
 
     public function home()
     {
-      	if(Auth::user()->id == 1){
+      	if(Auth::user()->type == 0){
             $posts = DB::table('posts')
             ->select('users.name','posts.*')
             ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')

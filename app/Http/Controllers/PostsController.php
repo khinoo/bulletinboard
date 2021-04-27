@@ -54,7 +54,12 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $this->postInterface->savePost($request);
-        return redirect('/postlist');
+        if($request->input('id') != null){
+            $message = 'Post Updated Successfully !';
+        }else{
+            $message = 'Post Created Successfully !';
+        }
+        return redirect('/postlist')->with('success', $message);
     }
 
     public function confirm(Request $request)
@@ -131,7 +136,7 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $this->postInterface->destroyPost($id);
-        return redirect('/postlist');
+        return redirect('/postlist')->with('success','Deleted Post Successfully!');
     }
 
     public function search(Request $request)
