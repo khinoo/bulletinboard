@@ -74,25 +74,29 @@ class UserDao implements UserDaoInterface
   }
   public function userSearch($request)
   {
-	  $name = $request->input('name');
-    $email = $request->input('email');
-    $createdFrom = ( $request->createdFrom != null ) ? Carbon::createFromFormat('d/m/Y', $request->createdFrom)->format('Y-m-d') : null;
-    $createdTo = ( $request->createdTo != null ) ? Carbon::createFromFormat('d/m/Y', $request->createdTo)->format('Y-m-d') : null;
-    if ($name) {
-        $users = DB::table('users')
-        ->where('users.name', 'LIKE', "%{$name}%")->paginate(10);
-    }elseif($email){
-        $users = DB::table('users')
-        ->where('users.email', 'LIKE', "%{$email}%")->paginate(10);;
-    }elseif($createdFrom){
-        $users = DB::table('users')
-        ->where('created_at', '>=', $createdFrom)->paginate(10);
-    }elseif($createdTo){
-        $users = DB::table('users')
-        ->where('created_at', '<=', $createdTo)->paginate(10);
-    }else{
-        $users = DB::table('users')->paginate(10);
-    }
+	  $search = $request->input('search');
+    // $createdFrom = ( $request->createdFrom != null ) ? Carbon::createFromFormat('d/m/Y', $request->createdFrom)->format('Y-m-d') : null;
+    // $createdTo = ( $request->createdTo != null ) ? Carbon::createFromFormat('d/m/Y', $request->createdTo)->format('Y-m-d') : null;
+    // if ($name) {
+    //     $users = DB::table('users')
+    //     ->where('users.name', 'LIKE', "%{$name}%")->paginate(10);
+    // }elseif($email){
+    //     $users = DB::table('users')
+    //     ->where('users.email', 'LIKE', "%{$email}%")->paginate(10);
+    // }elseif($createdFrom){
+    //     $users = DB::table('users')
+    //     ->where('created_at', '>=', $createdFrom)->paginate(10);
+    // }elseif($createdTo){
+    //     $users = DB::table('users')
+    //     ->where('created_at', '<=', $createdTo)->paginate(10);
+    // }else{
+    //     $users = DB::table('users')->paginate(10);
+    // }
+      $users =  DB::table('users')
+         ->where('name', 'LIKE', "%{$search}%")
+         ->orwhere('email', 'LIKE', "%{$search}%")
+         ->paginate(10);
+
     return $users;
   }
   public function updateUserPassword($request)

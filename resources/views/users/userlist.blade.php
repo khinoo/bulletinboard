@@ -12,10 +12,7 @@
 <br>
 <div class="container">
 	<form action="/usersearch" method="get" id="selectform">
-	 <input id="name" type="" class="is-invalid" name="name" value="{{ isset($request->name) ? $request->name : ''}}">
-	 <input id="email" type="" class="is-invalid" name="email" value="{{ isset($request->email) ? $request->email : ''}}">
-	 <input id="createdFrom" type="" class="is-invalid" name="createdFrom" value="{{ isset($request->createdFrom) ? $request->createdFrom : ''}}">
-	 <input id="createdTo" type="" class="is-invalid" name="createdTo" value="{{ isset($request->createdTo) ? $request->createdTo : ''}}">
+	 <input id="search" type="" class="is-invalid" name="search" value="{{ isset($request->search) ? $request->search : ''}}" placeholder="Search Name Or Email">
 	 <button type="submit" class="btn btn-primary">Search</button>
 	 <button type="button" onclick="window.location='{{ url("/createuser") }}'" class="btn btn-primary">Add</button>
 	</form>
@@ -108,6 +105,6 @@
 </table>
 </div>
 <div class="d-flex justify-content-center">
-	{{ $users->links() }}
+	{{ $users->withQueryString()->links() }}
 </div>
 @endsection

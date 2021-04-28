@@ -40,7 +40,7 @@ class PostDao implements PostDaoInterface
   }
   public function getPostByUser()
   {
-    if(Auth::user()->id == 1){
+    if(Auth::user()->type == 0){
         $posts = DB::table('posts')
         ->select('users.name','posts.*')
         ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
@@ -50,7 +50,8 @@ class PostDao implements PostDaoInterface
         ->select('users.name','posts.*')
         ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
         ->whereNull('posts.deleted_at')
-        ->where('posts.create_user_id', Auth::user()->id)->whereNull('posts.deleted_at')->paginate(10);
+        ->where('posts.create_user_id', Auth::user()->id)
+        ->whereNull('posts.deleted_at')->paginate(10);
     }
 
     return $posts;
@@ -68,15 +69,51 @@ class PostDao implements PostDaoInterface
   }
   public function userSearch($request)
   {
-    $search = $request->input('search');
-    $posts = DB::table('posts')
-        ->select('users.name','posts.*')
-        ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
-        ->where('posts.title', 'LIKE', "%{$search}%")
-        ->orWhere('posts.description', 'LIKE', "%{$search}%")
-        ->orWhere('users.name', 'LIKE', "%{$search}%")
-        ->paginate(10);
-    
+    $title_search = $request->input('title_search');
+    $des_search = $request->input('des_search');
+
+      if(Auth::user()->type == 0){
+        if($title_search){
+            $posts =  DB::table('posts')
+              ->select('users.name','posts.*')
+              ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
+              ->where('posts.title', 'LIKE', "%{$title_search}%")
+              ->whereNull('posts.deleted_at')->paginate(10);
+          }elseif($des_search){
+            $posts =  DB::table('posts')
+              ->select('users.name','posts.*')
+              ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
+              ->where('posts.description', 'LIKE', "%{$des_search}%")
+              ->whereNull('posts.deleted_at')->paginate(10);
+          }else{
+            $posts =  DB::table('posts')
+              ->select('users.name','posts.*')
+              ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
+              ->whereNull('posts.deleted_at')->paginate(10);
+          }
+      }else{
+          if($title_search){
+            $posts =  DB::table('posts')
+              ->select('users.name','posts.*')
+              ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
+              ->where('posts.create_user_id', Auth::user()->id)
+              ->where('posts.title', 'LIKE', "%{$title_search}%")
+              ->whereNull('posts.deleted_at')->paginate(10);
+          }elseif($des_search){
+            $posts =  DB::table('posts')
+              ->select('users.name','posts.*')
+              ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
+              ->where('posts.create_user_id', Auth::user()->id)
+              ->where('posts.description', 'LIKE', "%{$des_search}%")
+              ->whereNull('posts.deleted_at')->paginate(10);
+          }else{
+            $posts =  DB::table('posts')
+              ->select('users.name','posts.*')
+              ->leftjoin('users', 'posts.create_user_id', '=', 'users.id')
+              ->where('posts.create_user_id', Auth::user()->id)
+              ->whereNull('posts.deleted_at')->paginate(10);
+          }
+      }
     return $posts;
   }
 }

@@ -11,7 +11,8 @@
 <h3 style="margin-left: 201px;" class="text-primary">Post List</h3>
 <div class="container">
 	<form action="/search" method="get" id="selectform">
-	 <input  type="text" class="is-invalid" name="search" id="search" value="{{ isset($request->search) ? $request->search : ''}}" >
+	 <input  type="text" class="is-invalid" name="title_search" id="title_search" value="{{ isset($request->title_search) ? $request->title_search : ''}}" placeholder="Search By Title">
+   <input  type="text" class="is-invalid" name="des_search" id="des_search" value="{{ isset($request->des_search) ? $request->des_search : ''}}" placeholder="Search By Description">
 	 <button type="submit" class="btn btn-primary">Search</button>
 	 <button type="button" onclick="window.location='{{ url("/posts") }}'" class="btn btn-primary">Add</button>
 	 <button type="button" onclick="window.location='{{ url("/uploadview") }}'" class="btn btn-primary">Upload</button>
@@ -109,8 +110,6 @@
           @if( Auth::user()->type != 2 )
 	      <td><a class="btn btn-outline-info" href="/createpost/{{$post->id}}">Edit</a></td>
         <td><a class="btn btn-outline-danger" data-id="{{ $post->id }}" id="deleteModal" data-toggle="modal" data-target="#exampleModalCenter">Delete</a></td>
-<!-- 
-	      <td><a class="btn btn-outline-danger" onclick="return confirm('Are you sure want to delete this post?')" href="/deletepost/{{$post->id}}">Delete</a></td> -->
           @endif
         <input type="hidden" class="form-control title_{{$post->id}}" id="title" value = "{{ $post->title }}" wire:model="title">
         <input type="hidden" class="form-control des_{{$post->id}}" id="description" value = "{{ $post->description }}" wire:model="description">
@@ -123,6 +122,6 @@
 </table>
 </div>
 <div class="d-flex justify-content-center">
-	{{ $posts->links() }}
+	{{ $posts->withQueryString()->links() }}
 </div>
 @endsection  

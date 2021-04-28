@@ -34,7 +34,7 @@
                 @if( Auth::user()->type == 0 )
                 <li class="nav-item dropdown">
                     <a class="dropdown-item text-primary" href="/userlist" data-toggle="tooltip" data-placement="top" title="Go to the userlist">
-                        {{ Auth::user()->name }}
+                        UserList 
                     </a>
                 </li>
                 @endif

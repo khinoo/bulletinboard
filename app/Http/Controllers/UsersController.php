@@ -145,7 +145,7 @@ class UsersController extends Controller
         }
 
         if($request->image != null){
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             if ($validator->fails()) {

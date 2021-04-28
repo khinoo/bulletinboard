@@ -38,10 +38,10 @@ class ImportExportController extends Controller
         }
         Excel::import(new PostsImport,$request->file('file'));
 
-        $fileName = request->file('file')->getClientOriginalName();  
+        $fileName = $request->file('file')->getClientOriginalName();  
        
         $request->file('file')->move(public_path('csv/'.Auth::user()->id.'/'), $fileName);
 
-        return redirect('/postlist')->with(['Successfully imported.!!!']);
+        return redirect('/postlist')->with('success','Successfully Uploaded!');
     }
 }
