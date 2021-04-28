@@ -36,4 +36,8 @@ $(document).ready(function () {
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     });
+    $(document).on('click', '#deleteModal', function(event) {
+      var id = $(this).attr('data-id');
+      $('#userForm').attr("action", '/deletepost/'+id);
+    });
 });
