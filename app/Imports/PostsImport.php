@@ -3,10 +3,13 @@
 namespace App\Imports;
 
 use App\Post;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Carbon\Carbon;
 
-class PostsImport implements ToModel
+class PostsImport implements ToModel, WithValidation
 {
     /**
     * @param array $row
@@ -19,10 +22,17 @@ class PostsImport implements ToModel
             'title'     => $row[0],
             'description'    => $row[1], 
             'status'    => $row[2], 
-            'created_user_id'    => $row[3], 
-            'updated_user_id'    => $row[4], 
+            'create_user_id'    => Auth::user()->id, 
+            'updated_user_id'    => Auth::user()->id, 
             'created_at'    => Carbon::now(), 
             'updated_at'    => Carbon::now(),
         ]);
+    }
+
+    public function rules(): array
+    {
+        return [
+            Rule::unique('posts', 'title'),
+        ];
     }
 }

@@ -60,6 +60,27 @@
     </div>
 </div>
 
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <form id="userForm" action="">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Delete User Confirm</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure want to delete this user?
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container">
     <table class="table table-bordered">
   	<thead>
@@ -91,7 +112,7 @@
 	      <td>{{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y')}}</td>
           @if( Auth::user()->type == 0 )
 	      <td><a class="btn btn-outline-info" href="/createuser/{{$user->id}}">Edit</a></td>
-	      <td><a class="btn btn-outline-danger" onclick="return confirm('Are you sure want to delete this post?')" href="/deleteuser/{{$user->id}}">Delete</a></td>
+        <td><a class="btn btn-outline-danger" data-id="{{ $user->id }}" id="deleteUserModal" data-toggle="modal" data-target="#exampleModalCenter">Delete</a></td>
           @endif
 
 	    <input type="hidden" class="form-control name_{{$user->id}}" id="name" value = "{{ $user->name }}" wire:model="name">

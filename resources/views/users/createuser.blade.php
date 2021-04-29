@@ -89,6 +89,7 @@
 
                             <div class="form-group row">
                                 <label for="type"  class="col-md-4 col-form-label text-md-right">Type</label>
+                                @if( Auth::user()->type == 0 )
                                 <div class="col-md-6">
                                     <select id="type" required="" name="type" class="form-control">
                                         <option value="">--Select--</option>
@@ -100,13 +101,27 @@
                                 <div class="col">
                                     <label style="color: red;">*</label>
                                 </div>
+                                @else
+                                <div class="col-md-6">
+                                    @if( Auth::user()->type =='1' )         
+                                        @php
+                                            $type = "User";
+                                        @endphp         
+                                    @else
+                                        @php
+                                            $type = "Visitor";
+                                        @endphp       
+                                    @endif
+                                    <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" value="{{ isset($type) ? $type : old('type') }}">
+                                </div>
+                                @endif
                             </div>
 
                             <div class="form-group row">
                                 <input type="hidden" class="form-control @error('id') is-invalid @enderror" id="id" name="id" placeholder="id" value="{{ isset($id) ? $id : '' }}">
                                 <label for="phone"  class="col-md-4 col-form-label text-md-right">Phone</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" placeholder="phone" value="">
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" placeholder="phone" value="{{ isset($phone) ? $phone : old('phone') }}">
                                 </div>
                             </div>
 

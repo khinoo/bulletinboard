@@ -13,10 +13,32 @@ class UsersTablesSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name'    => 'Admin',
-            'email'    => 'admin@gmail.com',
-            'password'   =>  Hash::make('password'),
-        ]);
+        DB::table('users')->insert([
+                [
+                    'name'       => 'Admin',
+                    'email'      => 'admin@gmail.com',
+                    'type'       => 0,
+                    'password'   =>  Hash::make('password'),
+                ],
+                [
+                    'name'       => 'mgmg',
+                    'email'      => 'mgmg@gmail.com',
+                    'type'       => 1,
+                    'password'   =>  Hash::make('111111'),
+                ],
+                [
+                    'name'       => 'koko',
+                    'email'      => 'koko@gmail.com',
+                    'type'       => 1,
+                    'password'   =>  Hash::make('111111'),
+                ],
+                [
+                    'name'       => 'mama',
+                    'email'      => 'mama@gmail.com',
+                    'type'       => 2,
+                    'password'   =>  Hash::make('111111'),
+                ]
+            ]
+        );
     }
 }

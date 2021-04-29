@@ -50,7 +50,7 @@
                         <input type="text" class="form-control" id="created_at" wire:model="created_at">
                     </div>
                     <div class="form-group">
-                        <label for="created_user_id">Created_User_ID</label>
+                        <label for="created_user_id">Created_User</label>
                         <input type="text" class="form-control" id="created_user_id" wire:model="created_user_id">
                     </div>
                 </form>
@@ -115,7 +115,7 @@
         <input type="hidden" class="form-control des_{{$post->id}}" id="description" value = "{{ $post->description }}" wire:model="description">
         <input type="hidden" class="form-control status_{{$post->id}}" id="status" value = "{{ $post->status }}" wire:model="status">
         <input type="hidden" class="form-control created_at_{{$post->id}}" id="created_at" value = "{{ $post->created_at }}" wire:model="created_at">
-        <input type="hidden" class="form-control created_user_{{$post->id}}" id="create_user_id" value = "" wire:model="created_user_id">
+        <input type="hidden" class="form-control created_user_{{$post->id}}" id="create_user_id" value = "{{ $post->name}}" wire:model="created_user_id">
 	    </tr>
 	     @endforeach
   </tbody>

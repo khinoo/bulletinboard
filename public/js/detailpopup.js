@@ -40,4 +40,8 @@ $(document).ready(function () {
       var id = $(this).attr('data-id');
       $('#userForm').attr("action", '/deletepost/'+id);
     });
+    $(document).on('click', '#deleteUserModal', function(event) {
+      var id = $(this).attr('data-id');
+      $('#userForm').attr("action", '/deleteuser/'+id);
+    });
 });

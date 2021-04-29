@@ -63,7 +63,11 @@ class UsersController extends Controller
         }else{
             $message = 'Created User Successfully !';
         }
-        return redirect('/userlist')->with('success', $message);
+        if(Auth::User()->type == 0){
+            return redirect('/userlist')->with('success', $message);
+        }else{
+            return redirect('/postlist')->with('success', $message);
+        }
     }
 
     /**
@@ -93,9 +97,10 @@ class UsersController extends Controller
         $email = $users->email;
         $dob = $users->dob;
         $address = $users->address;
+        $type = $users->type;
         $filename = substr($users->profile,9);
 
-        return view('users/createuser', ['name' => $name, 'email' => $email, 'id' => $id, 'dob' => $dob, 'address' => $address, 'filename' => $filename]); 
+        return view('users/createuser', ['name' => $name, 'email' => $email, 'id' => $id, 'dob' => $dob, 'address' => $address, 'type' => $type, 'filename' => $filename]); 
     }
 
     /**
@@ -171,10 +176,11 @@ class UsersController extends Controller
         $type = $request->input('type');
         $phone = $request->input('phone');
         $dob = $request->input('dob');
+        $type = $request->input('type');
         $address = $request->input('address');
         $filename = $imageName;
 
-        return view('users/userconfirm', ['name' => $name, 'email' => $email, 'id' => $id, 'password' => $password, 'confirmpsw' => $confirmpsw, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'address' => $address, 'filename' => $filename]);
+        return view('users/userconfirm', ['name' => $name, 'email' => $email, 'id' => $id, 'password' => $password, 'confirmpsw' => $confirmpsw, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'type' => $type,'address' => $address, 'filename' => $filename]);
     }
 
     public function changepasswordview($id)
